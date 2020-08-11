@@ -23,7 +23,7 @@ class User(db.Model):
     first_name = db.Column(db.Text,
                      nullable=False)
     last_name = db.Column(db.Text, nullable=False)
-    image_url = db.Column(db.String(50), nullable=False, default= DEFAULT_IMAGE_URL)
+    image_url = db.Column(db.Text, nullable=False, default= DEFAULT_IMAGE_URL)
 
     @property
     def full_name(self):
