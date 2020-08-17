@@ -19,4 +19,16 @@
     </form>
   </div>
 </div>
+
+<div>
+<h1>Posts</h1>
+<ul>
+  {% for post in posts %}
+  <li>
+    {{post.title}}
+  </li>
+  {% endfor %}
+</ul>
+<button class="btn btn-primary btn-sm" formaction="/users/{{user.id}}/posts/new" formmethod="GET">Add Post</button>
+</div>
 {% endblock %}
