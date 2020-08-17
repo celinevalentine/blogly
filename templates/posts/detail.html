@@ -5,11 +5,11 @@
 {% block content %}
 <h1>{{post.title}}</h1>
 <p>{{post.content}}
-by <i>{{user.full_name}}</i>on {{post.created_at}}
+by <i>{{user.full_name}}</i>on {{post.format_date}}
 </p>
 
 <form>
-    <a href="/users/{{post.user_id}}" class="btn btn-outline-info">Cancel</a>
+    <button class="btn btn-outline-primary" formaction="/users/{{post.user_id}}">Cancel</button>>
     <button class="btn btn-primary btn-sm" formaction="/posts/{{post.id}}/edit" formmethod="GET">Edit</button>
     <button class="btn btn-danger btn-sm" formaction="/posts/{{post.id}}/delete" formmethod="POST">Delete</button>
 </form>

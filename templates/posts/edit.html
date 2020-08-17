@@ -3,6 +3,7 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block content %}
+<div class="container">
 <h1>Edit Post</h1>
 <form action="/posts/{{posts.id}}/edit" method="POST">
   <div class="form-group row">
@@ -18,5 +19,6 @@
         <button type="submit" class="btn btn-success">Edit</button>
         </div>
 </form>
+</div>
 
 {% endblock}

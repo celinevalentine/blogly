@@ -26,7 +26,7 @@ def root():
 @app.route('/users')
 def user_index():
     """show all users with links"""
-    users = User.query.order_by(User.last_name, User.first_name).all()
+    users = User.query.all()
     return render_template('users/index.html', users=users)
 
 @app.route('/users/new')

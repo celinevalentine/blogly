@@ -3,6 +3,7 @@
 {% block title %}Blogly{% endblock %}
 
 {% block content %}
+<div class="container">
 <h1>Blogly Recent Posts</h1>
 {% for post in posts %}
 <h2><a href="/posts/{{post.id}}">{{post.title}}</a></h2>
@@ -11,8 +12,7 @@
 <p>
     <small>by {{user.full_name}} on {{post.created_at}}</small>
 </p>
-
-
+</div>
 {% endfor %}
 
 {% endblock %}
