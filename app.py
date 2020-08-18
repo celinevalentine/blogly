@@ -21,7 +21,7 @@ db.create_all()
 def root():
     """redirect to list of users"""
     posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()  
-    return render_template('/posts/homepage.html', posts=posts)
+    return render_template('posts/homepage.html', posts=posts)
 
 @app.route('/users')
 def user_index():
@@ -32,7 +32,7 @@ def user_index():
 @app.route('/users/new')
 def show_user_form():
     """show a form to add a user"""
-    return render_template('/users/add.html')
+    return render_template('users/add.html')
 
 @app.route('/users/new', methods=["POST"])
 def add_user():
@@ -51,13 +51,13 @@ def add_user():
 def show_user(user_id):
     """Show details info of a given user"""
     user = User.query.get_or_404(user_id)
-    return render_template('/users/detail.html',user=user)
+    return render_template('users/detail.html',user=user)
 
 @app.route('/users/<int:user_id>/edit')
 def user_edit_form(user_id):
     """show a form to edit user info"""
     user = User.query.get_or_404(user_id)
-    return render_template('/users/edit.html', user=user)
+    return render_template('users/edit.html', user=user)
 
 @app.route('/users/<int:user_id>/edit', methods=["POST"])
 def edit_user(user_id):
@@ -94,7 +94,7 @@ def add_post(user_id):
     user = User.query.get_or_404(user_id)
     title = request.form['title']
     content = request.form['content']
-    new_post = Post(title=title, content=content)
+    new_post = Post(title=title, content=content, user_id=user_id)
     db.session.add(new_post)
     db.session.commit()
 
@@ -104,7 +104,7 @@ def add_post(user_id):
 def show_posts(post_id):
     """show posts from a user"""
     post = Post.query.get_or_404(post_id)
-    return render_template('/posts/detail.html', post=post)
+    return render_template('posts/detail.html', post=post)
 
 @app.route('/posts/<int:post_id>/edit')
 def show_edit_post_form(post_id):
