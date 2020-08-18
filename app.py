@@ -100,7 +100,7 @@ def add_post(user_id):
 
     return redirect(f"/users/{user.id}")
 
-@app.route('/posts<int:post_id>')
+@app.route('/posts/<int:post_id>')
 def show_posts(post_id):
     """show posts from a user"""
     post = Post.query.get_or_404(post_id)
