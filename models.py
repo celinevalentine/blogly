@@ -37,7 +37,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at=db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship('User', backref='post')
+    user = db.relationship('User', backref='posts')
 
     @property
     def format_date(self):

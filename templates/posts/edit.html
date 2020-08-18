@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
 <h1>Edit Post</h1>
-<form action="/posts/{{post.id}}/edit" method="POST">
+<form method="POST">
   <div class="form-group row">
     <label for="title">Title</label>
     <input class="form-control" type="text" name="title" value={{post.title}}>
@@ -15,8 +15,8 @@
       <textarea class="form-control" name="content" value={{post.content}}></textarea>
     </div>
       <div class="form-group row">
-        <a href="/users/{{post.users_id}}" class="btn btn-outline-info">Cancel</a>
-        <button type="submit" class="btn btn-success">Edit</button>
+        <a href="/users/{{post.user_id}}" class="btn btn-outline-info">Cancel</a>
+        <button type="submit"class="btn btn-success">Edit</button>
         </div>
 </form>
 </div>

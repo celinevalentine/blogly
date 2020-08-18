@@ -26,7 +26,8 @@
 <ul>
   {% for post in user.posts %}
   <li>
-    {{post.title}}
+    <a href="/posts/{{post.id}}">{{post.title}}</a> 
+    
   </li>
   {% endfor %}
 </ul>
