@@ -1,5 +1,6 @@
 import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref
 
 db = SQLAlchemy()
 
@@ -37,7 +38,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at=db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship('User', backref='posts')
+    user = db.relationship('User', backref=backref('posts', cascade="all, delete"))
 
     @property
     def format_date(self):

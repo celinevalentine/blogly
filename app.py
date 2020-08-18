@@ -44,6 +44,7 @@ def add_user():
     new_user = User(first_name=first_name, last_name=last_name, image_url=image_url or None)
     db.session.add(new_user)
     db.session.commit()
+    flash("User is added!")
 
     return redirect('/users')
 
@@ -69,6 +70,7 @@ def edit_user(user_id):
 
     db.session.add(user)
     db.session.commit()
+    flash("User is edited!")
     return redirect('/users')
 
 @app.route('/users/<int:user_id>/delete', methods=["POST"])
@@ -77,7 +79,7 @@ def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
-
+    flash("User is deleted!")
     return redirect('/users')
 
 #Post route
@@ -120,6 +122,7 @@ def edit_post(post_id):
     post.content = request.form['content']
     db.session.add(post)
     db.session.commit()
+    flash("Post is edited!")
     return redirect (f"/users/{post.user_id}")
 @app.route('/posts/<int:post_id>/delete', methods=['POST'])
 def delete_post(post_id):
@@ -127,5 +130,15 @@ def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     db.session.delete(post)
     db.session.commit()
-
+    flash("Post is deleted!")
     return redirect (f"/users/{post.user_id}")
+
+# handle 404 page
+
+def page_not_found(e):
+  return render_template('404.html'), 404
+
+def create_app(config_filename):
+    app = Flask(__name__)
+    app.register_error_handler(404, page_not_found)
+    return app
