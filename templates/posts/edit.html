@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
 <h1>Edit Post</h1>
-<form action="/posts/{{posts.id}}/edit" method="POST">
+<form action="/posts/{{post.id}}/edit" method="POST">
   <div class="form-group row">
     <label for="title">Title</label>
     <input class="form-control" type="text" name="title" value={{post.title}}>
@@ -21,4 +21,4 @@
 </form>
 </div>
 
-{% endblock}
+{% endblock %}

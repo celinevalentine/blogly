@@ -98,7 +98,7 @@ def add_post(user_id):
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(f"/users/{user.id}")
+    return render_template('users/detail.html', user=user)
 
 @app.route('/posts/<int:post_id>')
 def show_posts(post_id):
@@ -110,7 +110,8 @@ def show_posts(post_id):
 def show_edit_post_form(post_id):
     """show edit post form"""
     post = Post.query.get_or_404(post_id)
-    return render_template('/users', post=post)
+    return render_template('posts/edit.html', post=post)
+
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
 def edit_post(post_id):
     """edit a post"""

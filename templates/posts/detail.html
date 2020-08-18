@@ -9,7 +9,7 @@ by <i>{{ post.user.full_name }}</i>on {{ post.format_date }}
 </p>
 
 <form>
-    <button class="btn btn-outline-primary" formaction="/users/{{ post.user_id }}">Cancel</button>>
+    <button class="btn btn-outline-primary" formaction="/users/{{ post.user_id }}">Cancel</button>
     <button class="btn btn-primary btn-sm" formaction="/posts/{{ post.id }}/edit" formmethod="GET">Edit</button>
     <button class="btn btn-danger btn-sm" formaction="/posts/{{ post.id }}/delete" formmethod="POST">Delete</button>
 </form>

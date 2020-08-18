@@ -44,6 +44,25 @@ class Post(db.Model):
         """format time stamp"""
         return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
     
+class Tag(db.Model):
+    """blog tag"""
+
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+    post_tags = db.relationship('PostTag',backref='Tag')
+
+class PostTag(db.Model):
+    """mapping of a post to a tag"""
+
+    __tablename__ = "post_tags"
+
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"),primary_key=True)
+
+    tag_id = db.Column(db.Integer, db.ForeignKey("tags.id"),primary_key=True)
+
 
 def connect_db(app):
     """Connect to database."""
