@@ -49,7 +49,7 @@ def add_user():
     new_user = User(first_name=first_name, last_name=last_name, image_url=image_url or None)
     db.session.add(new_user)
     db.session.commit()
-    flash(f"User {user.full_name} is added!")
+    flash(f"User {new_user.full_name} is added!")
 
     return redirect('/users')
 

@@ -56,7 +56,7 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
 
-    post_tags = db.relationship('PostTag',backref='Tag')
+    post_tags = db.relationship('PostTag',backref='tags')
 
 class PostTag(db.Model):
     """mapping of a post to a tag"""
