@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User
+from models import db, User, Post
 
 # Use test database and don't clutter tests with SQL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
@@ -31,6 +31,15 @@ class UserViewsTestCase(TestCase):
 
         self.user_id = user.id
         self.user = user
+
+        Post.query.delete()
+
+        post = Post(title="teacher_t", content="abc_t", user_id="1")
+        db.session.add(post)
+        db.session.commit()
+
+        self.post = post
+        self.post_id = post.id
 
     def tearDown(self):
         """Clean up any fouled transaction."""
@@ -62,7 +71,7 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn("<h1>James_t Smith_t</h1>", html)
 
-    def test_show_form(self):
+    def test_show_user_form(self):
        with app.test_client() as client:
             resp = client.get(f"/users/new")
             html = resp.get_data(as_text=True)
@@ -70,3 +79,36 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn('<label>First Name</label>', html)
 
+    def test_list_posts(self):
+        with app.test_client() as client:
+            resp = client.get("/")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<h1>Blogly Recent Posts</h1>', html)
+
+    def test_show_post(self):
+        with app.test_client() as client:
+            resp = client.get(f"/posts/{self.id}")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<h1>teacher_t</h1>', html)
+           
+    def test_add_post(self):
+        with app.test_client() as client:
+            d = {"title": "king_t", "content": "wyz_t"}
+            resp = client.post("/posts/new", data=d, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn("<h1>king_t</h1>", html)
+            self.assertIn("<p>wyz_t</p>", html)
+
+    def test_show_post_form(self):
+       with app.test_client() as client:
+            resp = client.get(f"/users/{self.user_id}posts/new")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<button>Add</button>', html)
