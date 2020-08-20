@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../../../part-two"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

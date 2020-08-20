@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Tag{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{tag.name}}</h1>
+    <ul>
+        {% for post in tag_posts %}
+        <li>{{post.title}}</li>
+        {% endfor %}
+    </ul>
+<button type="submit" class="btn btn-primary">Edit</button>
+<button type="submit" class="btn btn-alert">Delete</button>
+
+</div>
+
+{% endblock %}

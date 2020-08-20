@@ -7,7 +7,10 @@
 <p>{{ post.content }}
 by <i>{{ post.user.full_name }}</i>on {{ post.format_date }}
 </p>
-
+<div>
+    <p><b>Tags: </b>{% for tag in tags %} <a href="/tags/{{tag.id}}">{{tag}}</a>
+    </p>
+</div>
 <form>
     <button class="btn btn-outline-primary" formaction="/users/{{ post.user_id }}">Cancel</button>
     <button class="btn btn-primary btn-sm" formaction="/posts/{{ post.id }}/edit" formmethod="GET">Edit</button>

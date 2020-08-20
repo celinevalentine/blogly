@@ -41,7 +41,9 @@ class Post(db.Model):
     
     user = db.relationship('User', backref=backref('posts', cascade="all, delete"))
 
-    post_tag = db.relationship('PostTag',backref='posts')
+    tags = db.relationship('Tag',secondary='post_tags',backref='posts')
+
+    post_tags = db.relationship('PostTag', backref='posts')
 
     @property
     def format_date(self):
