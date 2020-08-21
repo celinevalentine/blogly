@@ -159,7 +159,7 @@ def list_tags():
 def tag_detail(tag_id):
     """show detail of a tag"""
     tag = Tag.query.get_or_404(tag_id)
-    posts=tag.posts.filter_by(tag_id = tag_id)
+    post=tag.posts.filter_by(tag_id == tag)
     return render_template('tags/detail.html', tag=tag)
 
 @app.route('/tags/new')
@@ -178,6 +178,7 @@ def add_tag():
     db.session.add(new_tag)
     db.commit()
 
+    flash(f"Tag {tag.title} is added!")
     return redirect('/tags')
 
 @app.route('/tags/<int:tag_id>/edit')
