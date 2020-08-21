@@ -105,15 +105,17 @@ def add_post(user_id):
     db.session.add(new_post)
     db.session.commit()
 
-    tag = Tag.query.all(tag_id)
+    tags = Tag.query.all()
+   
   
     flash(f"Post {new_post.title} is added!")
-    return render_template('users/detail.html', user=user, tag=tag)
+    return render_template('users/detail.html', user=user, tags=tags)
 
 @app.route('/posts/<int:post_id>')
 def show_posts(post_id):
     """show posts from a user"""
     post = Post.query.get_or_404(post_id)
+    
     return render_template('posts/detail.html', post=post)
 
 @app.route('/posts/<int:post_id>/edit')
@@ -171,10 +173,8 @@ def show_add_tag_form():
 @app.route('/tags/new', methods=['POST'])
 def add_tag():
     """handle add tag form"""
-    title = request.form['title']
-    content = request.form['content']
-    
-    new_tag = Tag(title=title, content=content)
+    name = request.form['name']
+    new_tag = Tag(name=name)
     db.session.add(new_tag)
     db.commit()
 
