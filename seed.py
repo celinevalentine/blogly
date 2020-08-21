@@ -21,6 +21,9 @@ post2 = Post(title='king', content="uxmn", created_at="2020.01.02", user_id=2)
 tag1 = Tag(name="teacher")
 tag2 = Tag(name="king")
 
+pt1 = PostTag(post_id=1, tag_id=1)
+pt2 = PostTag(post_id=2, tag_id=2)
+
 
 db.session.add(Dave_Allen)
 db.session.add(Dana_Pine)
@@ -34,6 +37,11 @@ db.session.commit()
 
 db.session.add(tag1)
 db.session.add(tag2)
+
+db.session.commit()
+
+db.session.add(pt1)
+db.session.add(pt2)
 
 db.session.commit()
 
