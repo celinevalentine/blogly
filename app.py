@@ -134,7 +134,7 @@ def edit_post(post_id):
     db.session.commit()
 
     tag = Tag.query.get(tag_id)
-    tag.name = requst.form.getlist['name']
+    tag.name = request.form.getlist['name']
 
     flash(f"Post {post.title} is edited!")
     return redirect (f"/users/{post.user_id}")
@@ -159,8 +159,8 @@ def list_tags():
 def tag_detail(tag_id):
     """show detail of a tag"""
     tag = Tag.query.get_or_404(tag_id)
-    tag_posts=tag.tag_posts.get(tag_id)
-    return render_template('tags/detail.html', tag=tag, tag_posts=tag_posts)
+    posts=tag.posts.filter_by(tag_id = tag_id)
+    return render_template('tags/detail.html', tag=tag)
 
 @app.route('/tags/new')
 def show_add_tag_form():
