@@ -1,3 +1,33 @@
 {% extends 'base.html' %}
-{% block title %}Add Tags{% endblock %}
+{% block title %}Edit Tags{% endblock %}
 {% block content %}
+<div class="container">
+    <h1>Edit a Tag</h1>
+    <form method="POST"> 
+        <div class="form-group row">
+            <label for="name" aria-placeholder="Enter a name for the tag">Name</label>
+            <input type="text" name="name" value={{tag.name}}>
+        </div>
+    
+        <div class="form-group row form-check">
+            {% for post in posts %}
+            <input class="form-input" type="checkbox" id="post_{{post_id}}" name="names" values="{{post.id}}">
+
+                {% if post in tag.posts %}
+            checked
+                {% endif %}
+            <label class="form-check-label" for="post_{{post_id}}">{{post.title}}</label>
+            
+        </div>
+            {% endfor %}
+        <div class="form-group row">
+            <div>
+                <button class="btn btn-info" formaction="/tags">Cancel</button>
+                <button class="btn btn-primary" formmethod="POST" formaction="/tags/{{tag.id}}/edit">Edit</button>
+            </div>  
+        </div>
+    </form>
+
+    {% endblock %}
+
+</div>

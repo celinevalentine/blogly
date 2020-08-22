@@ -8,7 +8,11 @@
 by <i>{{ post.user.full_name }}</i>on {{ post.format_date }}
 </p>
 <div>
-    <p><b>Tags: </b>{% for tag in tags %} <a href="/tags/{{tag.id}}">{{tag}}</a>
+    <p> 
+        <b>Tags: </b>
+        {% for tag in tags %}
+             <a href="/tags/{{tag.id}}">{{tag}}</a>
+        {% endfor %}
     </p>
 </div>
 <form>
