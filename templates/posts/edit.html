@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
 <h1>Edit Post</h1>
-<form method="POST">
+<form method="POST" action="/posts/{{post.id}}/edit">
   <div class="form-group row">
     <label for="title">Title</label>
     <input class="form-control" type="text" name="title" value={{post.title}}>
@@ -14,16 +14,21 @@
       <label for="content">Post Content</label>
       <textarea class="form-control" name="content" value={{post.content}}></textarea>
     </div>
-    <div class="form-group row">
+    <div class="form-check">
       {% for tag in tags %}
-      <input type="checkbox" name="{{tag.name}}" value="{{tag.name}}">
-      <label for="{{tag.name}}"> {{tag.name}}</label><br>
+      <div>
+        <input class="form-check-input" type="checkbox" name="tags" value="{{tag.id}}" id="tag_{{tag.id}}"
+        {% if tag in post.tags %}checked{% endif %}>
+        <label class="form-check-label" for="tag_{{tag.id}}"> {{tag.name}}</label> 
+      </div>
+      {% endfor %}
   </div>
       <div class="form-group row">
-        <a href="/users/{{post.user_id}}" class="btn btn-outline-info">Cancel</a>
-        <button type="submit"class="btn btn-success">Edit</button>
+        <div>
+          <a href="/users/{{post.user_id}}" class="btn btn-outline-info">Cancel</a>
+          <button type="submit"class="btn btn-success">Edit</button>
         </div>
+      </div>
 </form>
-</div>
 
 {% endblock %}

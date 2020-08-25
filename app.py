@@ -204,7 +204,7 @@ def edit_tag_form(tag_id):
    
     db.session.add(tag)
     db.session.commit()
-    flash(f"Tag {tag.name} is edited!")
+    flash(f"Tag '{tag.name}'' is edited!")
     return redirect ("/tags")
 
 
@@ -214,7 +214,7 @@ def delete_tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     db.session.delete(tag)
     db.session.commit()
-    flash(f"Tag {tag.name} is deleted!")
+    flash(f"Tag '{tag.name}' is deleted!")
     return redirect ("/tags")
 
 

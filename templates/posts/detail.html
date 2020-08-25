@@ -8,15 +8,17 @@
 by <i>{{ post.users.full_name }}</i>on {{ post.format_date }}
 </p>
 <div>
+    {% if post.tags %}
     <p> 
         <b>Tags: </b>
-        {% for tag in tags %}
-             <a href="/tags/{{tag.id}}">{{tag}}</a>
+        {% for tag in post.tags %}
+             <a href="/tags/{{tag.id}}"><i class="badge badge-primary">{{tag.name}}</i></a>
         {% endfor %}
     </p>
+    {% endif %}
 </div>
 <form>
-    <button class="btn btn-outline-primary" formaction="/users/{{ post.user_id }}">Cancel</button>
+    <button class="btn btn-outline-primary" formmethod="GET" formaction="/users/{{ post.user_id }}">Cancel</button>
     <button class="btn btn-primary btn-sm" formaction="/posts/{{ post.id }}/edit" formmethod="GET">Edit</button>
     <button class="btn btn-danger btn-sm" formaction="/posts/{{ post.id }}/delete" formmethod="POST">Delete</button>
 </form>
