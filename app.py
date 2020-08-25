@@ -2,18 +2,19 @@
 
 from flask import Flask, request, redirect, render_template, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post, Tag, PostTag
+from models import db, connect_db, User, Post, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "SECRET!"
-debug = DebugToolbarExtension(app)
+
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS']= False
 
+debug = DebugToolbarExtension(app)
+
 connect_db(app)
-db.drop_all()
 db.create_all()
 
 
@@ -31,7 +32,7 @@ def page_not_found(e):
 @app.route('/users')
 def user_index():
     """show all users with links"""
-    users = User.query.all()
+    users = User.query.order_by(User.last_name, User.first_name).all()
     return render_template('users/index.html', users=users)
 
 @app.route('/users/new')
@@ -103,12 +104,12 @@ def add_post(user_id):
     tag_ids = [int(num) for num in request.form.getlist("tags")]
     tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
     
-    new_post = Post(title=request.form['title'], content=request.form['content'], user=user,tags=tags)
+    new_post = Post(title=request.form['title'], content=request.form['content'],user_id=user_id, tags=tags)
     db.session.add(new_post)
     db.session.commit()
   
-    flash(f"Post {new_post.title} is added!")
-    return redirect (f"users/{user.id}")
+    flash(f"Post {new_post.title} of {user.full_name} is added!")
+    return redirect (f"/users/{user.id}")
 
 @app.route('/posts/<int:post_id>')
 def show_posts(post_id):

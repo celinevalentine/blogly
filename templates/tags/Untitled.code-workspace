@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../../../../part-three"
+		},
+		{
+			"path": "../../../../demo codes/flask-wtforms-demo"
+		},
+		{
+			"path": "../../../pet_adoption"
 		}
 	],
 	"settings": {
