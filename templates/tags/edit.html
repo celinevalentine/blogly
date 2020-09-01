@@ -11,7 +11,7 @@
     
         <div class="form-group row form-check">
             {% for post in posts %}
-            <input class="form-input" type="checkbox" id="post_{{post_id}}" name="posts" values="{{post.id}}" {% if post in tag.posts %}checked
+            <input class="form-input" type="checkbox" id="post_{{post_id}}" name="posts" value="{{post.id}}" {% if post in tag.posts %}checked
                 {% endif %}> 
             <label class="form-check-label" for="post_{{post_id}}">{{post.title}}</label>
             
