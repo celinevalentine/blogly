@@ -72,7 +72,7 @@ class AppTestCase(TestCase):
             self.assertIn("<h1>James Smith</h1>", html)
     def test_edit_user(self):
         with app.test_client() as client:
-            d = {first_name: Jane, last_name: Doe}
+            d = {"first_name": "Jane", "last_name": "Doe"}
             response = client.post(f'/users/{self.user_id}/edit', data = d,follow_redirects=True) 
             html = response.get_data(as_text=True)
             
@@ -112,8 +112,8 @@ class AppTestCase(TestCase):
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
-            self.assertIn("<h1>queen</h1>", html)
-            self.assertIn("<p>wyz</p>", html)
+            self.assertIn("queen", html)
+            self.assertIn("wyz", html)
 
 #------------------------------------
 def test_tag_list(self):
