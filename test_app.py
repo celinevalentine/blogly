@@ -47,14 +47,14 @@ class AppTestCase(TestCase):
 
         db.session.rollback()
     
-    def xtest_homepage(self):
+    def test_homepage(self):
         with app.test_client() as client:
             response = client.get('/')
             self.assertEqual(response.status_code, 200)
             html = response.get_data(as_text=True)
             self.assertIn("<h1>Blogly Recent Posts</h1>", html)
 
-    def xtest_list_users(self):
+    def test_list_users(self):
         with app.test_client() as client:
             resp = client.get("/users")
             html = resp.get_data(as_text=True)
@@ -62,7 +62,7 @@ class AppTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn('John Doe', html)
 
-    def xtest_user_detail(self):
+    def test_user_detail(self):
         with app.test_client() as client:
             resp = client.get(f"/users/{self.user_id}")
             html = resp.get_data(as_text=True)
@@ -78,7 +78,7 @@ class AppTestCase(TestCase):
 
             self.assertEqual(response.status_code, 200)
             self.assertIn("James Smith", html)
-    def xtest_edit_user(self):
+    def test_edit_user(self):
         with app.test_client() as client:
             d = {"fname": "Jane", "lname": "Doe", "img": "123.com"}
             response = client.post(f'/users/{self.user_id}/edit', data = d,follow_redirects=True) 
@@ -88,7 +88,7 @@ class AppTestCase(TestCase):
             self.assertIn("Jane Doe", html)
             
     
-    def xtest_delete_user(self):
+    def test_delete_user(self):
         with app.test_client() as client:
     
             d = {"fname": "Jane", "lname": "Doe", "img": "123.com"}
@@ -100,7 +100,7 @@ class AppTestCase(TestCase):
 
 #------------------------------------
 
-    def xtest_list_posts(self):
+    def test_list_posts(self):
         with app.test_client() as client:
             response = client.get("/")
             html = response.get_data(as_text=True)
@@ -120,7 +120,7 @@ class AppTestCase(TestCase):
     
 
 #------------------------------------
-def xtest_tag_list(self):
+def test_tag_list(self):
     with app.test_client() as client:
             response = client.get("/tags")
             html = response.get_data(as_text=True)
