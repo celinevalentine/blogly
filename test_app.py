@@ -19,8 +19,9 @@ class AppTestCase(TestCase):
         """Add sample pet."""
         User.query.delete()
         Post.query.delete()
+        Tag.query.delete()
 
-        user = User(first_name="John", last_name="Doe", image_url="https://www.google.com/imgres?imgurl=https%3A%2F%2Fsrkheadshotday.com%2Fwp-content%2Fuploads%2FKen_Nguyen_Headshot_16H3626.jpg&imgrefurl=https%3A%2F%2Fsrkheadshotday.com%2Fblog%2Fthe-best-tie-knot-for-your-headshot%2F&tbnid=f0mePlVDhAIxNM&vet=12ahUKEwihs4-86o_rAhVV454KHSFmCCIQMygOegUIARDuAQ..i&docid=UobcMAJU5BRp9M&w=1710&h=1140&q=head%20shot&ved=2ahUKEwihs4-86o_rAhVV454KHSFmCCIQMygOegUIARDuAQ")
+        user = User(first_name="John", last_name="Doe", image_url="www.image.com")
         db.session.add(user)
         db.session.commit()
 
@@ -34,101 +35,104 @@ class AppTestCase(TestCase):
         self.post = post
         self.post_id = post.id
 
+        tag = Tag(name="fun")
+        db.session.add(tag)
+        db.session.commit()
+
+        self.tag = tag
+        self.tag_id = tag.id
+
     def tearDown(self):
         """Clean up any fouled transaction."""
 
         db.session.rollback()
     
-    def test_homepage(self):
+    def xtest_homepage(self):
         with app.test_client() as client:
             response = client.get('/')
             self.assertEqual(response.status_code, 200)
             html = response.get_data(as_text=True)
-            self.AssertIn("<h1>Blogly Recent Posts</h1>", html)
+            self.assertIn("<h1>Blogly Recent Posts</h1>", html)
 
-    def test_list_users(self):
+    def xtest_list_users(self):
         with app.test_client() as client:
             resp = client.get("/users")
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
-            self.assertIn('Doe, John', html)
+            self.assertIn('John Doe', html)
 
-    def test_user_detail(self):
+    def xtest_user_detail(self):
         with app.test_client() as client:
             resp = client.get(f"/users/{self.user_id}")
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
-            self.assertIn('src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fsrkheadshotday.com%2Fwp-content%2Fuploads%2FKen_Nguyen_Headshot_16H3626.jpg&imgrefurl=https%3A%2F%2Fsrkheadshotday.com%2Fblog%2Fthe-best-tie-knot-for-your-headshot%2F&tbnid=f0mePlVDhAIxNM&vet=12ahUKEwihs4-86o_rAhVV454KHSFmCCIQMygOegUIARDuAQ..i&docid=UobcMAJU5BRp9M&w=1710&h=1140&q=head%20shot&ved=2ahUKEwihs4-86o_rAhVV454KHSFmCCIQMygOegUIARDuAQ"', html)
+            self.assertIn('src="www.image.com"', html)
            
-    def test_add_user(self):
+    def xtest_add_user(self):
         with app.test_client() as client:
-            d = {"first_name": "James", "last_name": "Smith"}
+            d = {"fname": "James", "lname": "Smith", "img": "None"}
             response = client.post("/users/new", data=d, follow_redirects=True)
             html = response.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 200)
-            self.assertIn("<h1>James Smith</h1>", html)
-    def test_edit_user(self):
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("James Smith", html)
+    def xtest_edit_user(self):
         with app.test_client() as client:
-            d = {"first_name": "Jane", "last_name": "Doe"}
+            d = {"fname": "Jane", "lname": "Doe", "img": "123.com"}
             response = client.post(f'/users/{self.user_id}/edit', data = d,follow_redirects=True) 
             html = response.get_data(as_text=True)
             
             user = User.query.get(self.user_id)
-            self.assertEqual("Jane", html)
+            self.assertIn("Jane Doe", html)
             
     
-    def test_delete_user(self):
+    def xtest_delete_user(self):
         with app.test_client() as client:
     
-            response = client.get("/users")
-            html = resp.get_data(as_text=True)
-
-            self.assertEqual(resp.status_code, 200)
-            self.assertIn("Allen,Dave",html)
-
-            response = client.get(f"/users/{self.user_id}/delete", follow_redirects=True)
-            self.assertEqual(response.status_code, 200)
-            response = client.get('/users')
+            d = {"fname": "Jane", "lname": "Doe", "img": "123.com"}
+            response = client.post(f'/users/{self.user_id}/delete', data = d,follow_redirects=True) 
             html = response.get_data(as_text=True)
-            self.assertNotIn('Allen,Dave', html)
+            
+            user = User.query.get(self.user_id)
+            self.assertNotIn("Jane Doe", html)
 
 #------------------------------------
 
-    def test_list_posts(self):
+    def xtest_list_posts(self):
         with app.test_client() as client:
-            response = client.get("/posts")
-            html = resp.get_data(as_text=True)
+            response = client.get("/")
+            html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn('<h1>Blogly Recent Posts</h1>', html)
-           
-    def test_add_post(self):
+            self.assertIn('Blogly Recent Posts', html)
+
+
+    def xtest_add_post(self):
         with app.test_client() as client:
             d = {"title": "queen", "content": "wyz"}
-            resp = client.post(f"/users/1/posts/new", data=d, follow_redirects=True)
-            html = resp.get_data(as_text=True)
+            response = client.post(f"/users/1/posts/new", data=d, follow_redirects=True)
+            html = response.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(response.status_code, 200)
             self.assertIn("queen", html)
-            self.assertIn("wyz", html)
+    
 
 #------------------------------------
-def test_tag_list(self):
+def xtest_tag_list(self):
     with app.test_client() as client:
             response = client.get("/tags")
             html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn('<h1>Blogly Recent Posts</h1>', html)
+            self.assertIn('Blogly Recent Posts', html)
 
 def test_tag_new(self):
      with app.test_client() as client:
         d = {"name": "fun"}
         response = client.post(f"/tags/new", data=d, follow_redirects=True)
-        html = resp.get_data(as_text=True)
+        html = response.get_data(as_text=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("fun", html)
